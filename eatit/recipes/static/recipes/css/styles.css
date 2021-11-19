@@ -1,0 +1,176 @@
+body {
+  /* MacBook Pro - 1 */
+  position: relative;
+  width: 1440px;
+  height: 2153px;
+  background-color: #F3E8DF;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+}
+
+#logo {
+  /* logo */
+  position: absolute;
+  left: 9px;
+  top: 7px;
+}
+
+#Calories {
+  /* Calories plan */
+  text-decoration: none;
+  position: absolute;
+  width: 143px;
+  height: 30px;
+  left: 300px;
+  top: 24px;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #32322B;
+}
+
+#Water {
+  /* Water plan */
+  text-decoration: none;
+  position: absolute;
+  width: 128px;
+  height: 30px;
+  left: 513px;
+  top: 24px;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #32322B;
+}
+
+#About {
+  /* About */
+  text-decoration: none;
+  position: absolute;
+  width: 91px;
+  height: 30px;
+  left: 699px;
+  top: 24px;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #32322B;
+}
+
+#top_line {
+  /* top_line */
+  position: absolute;
+  left: 9px;
+  top: 68px;
+}
+
+#top_rectangle {
+  /* top_rectangle */
+  background-repeat: no-repeat;
+  background: #F3E8DF;
+}
+
+abc {
+  position: fixed;
+  z-index: 3;
+}
+
+#tag {
+  /* tag */
+  position: absolute;
+  left: 249px;
+  top: 161px;
+  z-index: 2;
+}
+
+#home_photo {
+  position: absolute;
+  left: 726px;
+  top: 90px;
+  z-index: 2;
+}
+
+#input_field {
+  position: absolute;
+  left: 448px;
+  top: 447px;
+}
+
+#search_text {
+  border: none;
+  outline: none;
+  position: absolute;
+  width: 471px;
+  height: 28.39px;
+  left: 501px;
+  top: calc(50% - 28.39px/2 - 606.3px);
+}
+
+::placeholder {
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12.3447px;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.53);
+}
+
+#Search_icon {
+  position: absolute;
+  left: 462px;
+  top: 459px;
+  opacity: 0.9;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10rem;
+  z-index: -2;
+}
+
+.button:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: #DFB795;
+  transition: all 0.3s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+
+.button:hover:before {
+  width: 100%;
+}
