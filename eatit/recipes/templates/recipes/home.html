@@ -37,6 +37,8 @@
           {{ item.content|truncatewords:30 }} </p>
       </div>
     </div>
+         {% empty %}
+        <h1>You haven't add any recipe yet</h1>
     {% endfor %}
     </div>
 

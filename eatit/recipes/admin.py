@@ -7,6 +7,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'author', 'time_created', 'time_updated')
     list_display_links = ('id', 'name')
     search_fields = ('name', 'author')
+    filter_horizontal = ('ingr',)
 
 
 class IngredientAdmin(admin.ModelAdmin):

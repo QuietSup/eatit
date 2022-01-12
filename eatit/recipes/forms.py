@@ -6,6 +6,11 @@ from django.core.exceptions import ValidationError
 from .models import *
 
 
+class CustomMMCF(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, member):
+        return "%s" % member.name
+
+
 class AddRecipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,6 +24,7 @@ class AddRecipeForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+            'cat': forms.CheckboxSelectMultiple,
         }
 
     def clean_name(self):
@@ -26,6 +32,12 @@ class AddRecipeForm(forms.ModelForm):
         if len(name) > 50:
             raise ValidationError('Name is too long: must be less than 50 characters')
         return name
+
+
+class UpdateRecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['name', 'photo', 'content', 'cat', 'ingr']
 
 
 class RegisterUserForm(UserCreationForm):

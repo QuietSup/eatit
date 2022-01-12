@@ -34,18 +34,17 @@
         <p>{% for ing in item.ingr.all %}
               {{ ing.name }}
               {% endfor %}</p>
-          {{ item.content|truncatewords:30 }} </p>
+          <p>{{ item.content|truncatewords:30 }} </p>
         {% if request.user.is_authenticated %}
             <button type="button" class="btn btn-outline-primary" ><a href="{% url 'login' %}" class="nav-item">Edit</a></button>
         <button type="button" class="btn btn-outline-primary" ><a href="{% url 'del_recipe' item.pk %}" class="nav-item">Delete</a></button>
         {% endif %}
         </div>
       </div>
-    </div>
         {% empty %}
         <h1>You haven't add any recipe yet</h1>
     {% endfor %}
-    </div>
+
 
 {#    Page numbers    #}
     {%  if page_obj.has_other_pages %}
@@ -73,5 +72,5 @@
 {% endif %}
 
 {% endblock content %}
-
+</div>
 </html>

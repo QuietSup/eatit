@@ -86,6 +86,18 @@ def del_recipe(request, post_id):
     return render(request, 'recipes/my_recipes.html', {'recipes': recipes, 'cats': cats})
 
 
+def update_article(request, post_id):
+    instance = Recipe.objects.get(id=post_id)
+    if request.method == 'POST':
+        form = UpdateRecipeForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = UpdateRecipeForm(instance=instance)
+    return render(request, 'recipes/add_recipe.html', {'form': form})
+
+
 def favorites(request):
     return HttpResponse("<h1>favorites</h1>")
 
