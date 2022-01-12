@@ -34,7 +34,6 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50, verbose_name='Recipe name')),
                 ('photo', models.ImageField(upload_to='photos', verbose_name='Photo')),
-                ('content', models.TextField('Content', blank=True)),
                 ('time_created', models.DateTimeField(auto_now_add=True, verbose_name='Creation time')),
                 ('time_updated', models.DateTimeField(auto_now=True, verbose_name='Update time')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to=settings.AUTH_USER_MODEL)),

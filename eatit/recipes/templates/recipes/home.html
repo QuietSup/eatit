@@ -1,40 +1,68 @@
+{% extends 'recipes/base.html' %}
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <title>eatIt</title>
-  <link type="text/css" href="{% static 'recipes/css/styles.css' %}" rel="stylesheet" />
-  <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' />
-</head>
+{% block content %}
+    <div class="container">
 
-<body>
-  <div>
-    <abc>
-      <img id="top_rectangle" src="{% static 'recipes/images/top_rectangle.svg' %}" />
-      <img id="logo" src="{% static 'recipes/images/logo.svg' %}" />
-      <div>
-        <a href="#" class="button" id="Calories">&nbsp;&nbsp;Calories plan</a>
-        <a href="#" class="button" id="Water">&nbsp;&nbsp;Water plan</a>
-        <a href="#" class="button" id="About">&nbsp;&nbsp;&nbsp;About</a>
-        <a href="{% url 'login' %}" class="button">&nbsp;&nbsp;&nbsp;Log in</a>
-        <a href="{% url 'register' %}" class="button">&nbsp;&nbsp;&nbsp;Sign up</a>
+
+{#    Categories checkbox      #}
+<form action="{% url 'filter' %}" method="get">
+    {% for cat in cats %}
+        <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="{{ cat.pk }}" name="cat">
+                  <label class="form-check-label" for="flexCheckDefault">
+                      {{ cat.name }}
+              </label>
+        </div>
+    {% endfor %}
+    <button type="submit">Filter</button>
+</form>
+
+
+
+{#   Recipe list    #}
+    {% for item in recipes %}
+    <div class="card" style="width: 18rem;">
+        <a href="{% url 'post' item.pk %}"><img src="{{item.photo.url}}" class="card-img-top"></a>
+      <div class="card-body">
+          <p class="card-text"><h3> <a href="{% url 'post' item.pk %}">{{ item.name }}</a> </h3>
+          <p>{% for c in item.cat.all %}
+              {{ c.name }}
+              {% endfor %}</p>
+        <p>{% for ing in item.ingr.all %}
+              {{ ing.name }}
+              {% endfor %}</p>
+          {{ item.content|truncatewords:30 }} </p>
       </div>
-      <img id="top_line" src="{% static 'recipes/images/top_line.svg' %}" />
-    </abc>
-  </div>
+    </div>
+    {% endfor %}
+    </div>
 
-  <div>
-    <img id="tag" src="{% static 'recipes/images/tag.svg' %}" />
-    <img id="home_photo" src="{% static 'recipes/images/home_photo.png' %}" />
-  </div>
+{#    Page numbers    #}
+    {%  if page_obj.has_other_pages %}
+       <ul>
+       {% if page_obj.has_previous %}
+       <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a> </li>
+           {% endif %}
+        {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+            <li class="page-num page-num-selected">{{ p }}</li>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <li>
+            <a href="?page={{ p }}">{{ p }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+       {% if page_obj.has_next %}
+       <li><a href="?page={{ page_obj.previous_page_number }}">&gt;</a> </li>
+           {% endif %}
+        </ul>
+    {% endif %}
 
-  <div>
-    <img id="input_field" src="{% static 'recipes/images/input_field.svg' %}" />
-    <img id="Search_icon" src="{% static 'recipes/images/Search_icon.svg' %}" />
-    <input id="search_text" type="text" placeholder="Search for dish" />
-  </div>
-</body>
+
+
+{% endblock content %}
 
 </html>

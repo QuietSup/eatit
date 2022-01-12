@@ -5,13 +5,14 @@
 <form method="post" class="form-group">
     {% csrf_token %}
 {#    {{  form.as_p  }}#}
+<div class="form-error">{{ form.non_field_errors }}</div>
 
     {% for f in form %}
     <p><label for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }} </p>
         <div class="form-error">{{ f.errors }}</div>
     {% endfor %}
 
-    <button type="submit">Sign up</button>
+    <button type="submit">Log in</button>
 </form>
 
 {% endblock %}

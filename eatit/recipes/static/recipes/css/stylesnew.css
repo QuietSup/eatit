@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  /* MacBook Pro - 1 */
+  position: relative;
+  background-color: #F3E8DF;
+}
+
+.header {
+  width: 100%;
+  display: block;
+  border-bottom: 2px solid #32322B;;
+  border-bottom-color: rgba(0, 0, 0, 0.53);
+  background: #F3E8DF;
+  height: 100%;
+  display: table;
+  float: left;
+}
+
+.header div.navigation{
+  float: left;
+  height: 100%;
+}
+
+  position: fixed;
+
+}
+
+.logo_container{
+.navigation a{
+  height: 100%;
+  display: table;
+  float: left;
+}
+.navigation a li{
+  display: table-cell;
+  height: 100%;
+  color: rgba(0, 0, 0, 0.53);
+  font-family: Comfortaa;
+  font-size: 16px;
+  padding-top: 23px;
+}
+
+.header h1{
+  font-weight: bold;
+  text-decoration: none;
+  text-underline: none;
+  height: 100%;
+  color: rgba(0, 0, 0, 0.53);
+  font-family: Comfortaa;
+  font-size: 16px;
+}
+
+.header img.logo {
+  width: 200px;
+}

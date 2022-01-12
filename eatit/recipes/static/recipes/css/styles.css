@@ -1,12 +1,7 @@
 body {
   /* MacBook Pro - 1 */
   position: relative;
-  width: 1440px;
-  height: 2153px;
   background-color: #F3E8DF;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
 }
 
 #logo {

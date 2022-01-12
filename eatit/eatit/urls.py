@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from eatit import settings
-from recipes.views import index, pageNotFound
+from recipes.views import pageNotFound
 
 urlpatterns = [
     path('admin/', admin.site.urls),
