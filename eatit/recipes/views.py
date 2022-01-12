@@ -2,7 +2,6 @@ import operator
 from functools import reduce
 
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
@@ -10,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from django.db.models import Count
 
-from recipes.forms import RegisterUserForm, LoginUserForm
+from recipes.forms import *
 from recipes.models import *
 from recipes.utils import DataMixin, menu
 
@@ -22,7 +21,7 @@ from recipes.utils import DataMixin, menu
 
 
 class Home(ListView):
-    paginate_by = 1
+    paginate_by = 10
     model = Recipe
     template_name = 'recipes/home.html'
     context_object_name = 'recipes'
@@ -42,11 +41,49 @@ def categories(request):
 
 
 def add_recipe(request):
-    return HttpResponse("<h1>Categories</h1>")
+    if request.method == 'POST':
+        form = AddRecipeForm(request.POST, request.FILES)
+        if form.is_valid():
+            # print(form.cleaned_data)
+            try:
+                # form.save()
+                new_post = form.save(commit=False)
+                new_post.author = request.user
+                new_post.save()
+                form.save_m2m()
+                return redirect('')
+            except:
+                form.add_error(None, 'Error')
+    else:
+        form = AddRecipeForm()
+    return render(request, 'recipes/add_recipe.html', {'form': form})
 
 
-def my_recipes(request):
-    return HttpResponse("<h1>my_recipes</h1>")
+class MyRecipes(DataMixin, ListView):
+    model = Recipe
+    template_name = 'recipes/my_recipes.html'
+    context_object_name = 'recipes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cats'] = Category.objects.all()
+        return context
+
+    def get_queryset(self):
+        # cate = self.request.GET.getlist("cat")
+        # queryset = Recipe.objects.filter(cat__in=cate).annotate(num_tags=Count('cat')).filter(num_tags=len(cate))
+        # # queryset = Recipe.objects.filter(reduce(operator.and_, [Q(cat__in=c) for c in cate]))
+        # # queryset = Recipe.objects.filter(cat__in=self.request.GET.getlist("cat"))
+        queryset = Recipe.objects.filter(author_id=self.request.user)
+        return queryset
+
+
+def del_recipe(request, post_id):
+
+    Recipe.objects.filter(id=post_id).delete()
+    cats = Category.objects.all()
+    recipes = Recipe.objects.all()
+    return render(request, 'recipes/my_recipes.html', {'recipes': recipes, 'cats': cats})
 
 
 def favorites(request):
@@ -111,7 +148,7 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('')
 
 
 class LoginUser(DataMixin, LoginView):

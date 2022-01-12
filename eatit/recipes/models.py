@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 
 class Recipe(models.Model):
-    name = models.CharField('Recipe name', max_length=50)
+    name = models.CharField('Recipe name', max_length=50, unique=True)
     photo = models.ImageField('Photo', upload_to='photos')
-    content = models.TextField('Content', blank=True)
+    content = models.TextField('Content', blank=False)
     time_created = models.DateTimeField('Creation time', auto_now_add=True)
     time_updated = models.DateTimeField('Update time', auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -20,9 +20,12 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_id': self.pk})
 
+    class Meta:
+        ordering = ['-time_created', 'name']
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -35,7 +38,7 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return self.name

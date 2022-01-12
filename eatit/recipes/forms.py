@@ -1,6 +1,31 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
+from .models import *
+
+
+class AddRecipeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['cat'].empty_label = 'empty'
+        # self.fields['cat'].blank = True
+
+    class Meta:
+        model = Recipe
+        # fields = ['name', 'photo', 'content', 'cat', 'ingr']
+        fields = ['name', 'photo', 'content', 'cat', 'ingr']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if len(name) > 50:
+            raise ValidationError('Name is too long: must be less than 50 characters')
+        return name
 
 
 class RegisterUserForm(UserCreationForm):

@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container">
 
-
+{% if request.user.is_authenticated %}
 {#    Categories checkbox      #}
 <form action="{% url 'filter' %}" method="get">
     {% for cat in cats %}
@@ -35,8 +35,15 @@
               {{ ing.name }}
               {% endfor %}</p>
           {{ item.content|truncatewords:30 }} </p>
+        {% if request.user.is_authenticated %}
+            <button type="button" class="btn btn-outline-primary" ><a href="{% url 'login' %}" class="nav-item">Edit</a></button>
+        <button type="button" class="btn btn-outline-primary" ><a href="{% url 'del_recipe' item.pk %}" class="nav-item">Delete</a></button>
+        {% endif %}
+        </div>
       </div>
     </div>
+        {% empty %}
+        <h1>You haven't add any recipe yet</h1>
     {% endfor %}
     </div>
 
@@ -61,7 +68,9 @@
         </ul>
     {% endif %}
 
-
+{% else %}
+<h1>Log in to continue</h1>
+{% endif %}
 
 {% endblock content %}
 
