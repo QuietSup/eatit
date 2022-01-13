@@ -8,25 +8,26 @@
 
 {% if request.user.is_authenticated %}
 {#    Categories checkbox      #}
-<form action="{% url 'filter' %}" method="get">
-    {% for cat in cats %}
-        <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="{{ cat.pk }}" name="cat">
-                  <label class="form-check-label" for="flexCheckDefault">
-                      {{ cat.name }}
-              </label>
-        </div>
-    {% endfor %}
-    <button type="submit">Filter</button>
-</form>
+{#<form action="{% url 'filter' %}" method="get">#}
+{#    {% for cat in cats %}#}
+{#        <div class="form-check">#}
+{#              <input class="form-check-input" type="checkbox" value="{{ cat.pk }}" name="cat">#}
+{#                  <label class="form-check-label" for="flexCheckDefault">#}
+{#                      {{ cat.name }}#}
+{#              </label>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#    <button type="submit">Filter</button>#}
+{#</form>#}
 
 
 
 {#   Recipe list    #}
     {% for item in recipes %}
-    <div class="card" style="width: 18rem;">
+   <div style="margin-left: 10%; width: 80%; background-color: #ecc8c9; margin-top: 10px; margin-bottom: 10px; border-radius: 60px" align="center">
+    <div class="card" style="width: 40%;  line-height: 0.75;" >
         <a href="{% url 'post' item.pk %}"><img src="{{item.photo.url}}" class="card-img-top"></a>
-      <div class="card-body">
+      <div class="card-body" style="text-align: left;">
           <p class="card-text"><h3> <a href="{% url 'post' item.pk %}">{{ item.name }}</a> </h3>
           <p>{% for c in item.cat.all %}
               {{ c.name }}
@@ -35,8 +36,9 @@
               {{ ing.name }}
               {% endfor %}</p>
           <p>{{ item.content|truncatewords:30 }} </p>
+      </div>
+    </div>
         {% if request.user.is_authenticated %}
-            <button type="button" class="btn btn-outline-primary" ><a href="{% url 'login' %}" class="nav-item">Edit</a></button>
         <button type="button" class="btn btn-outline-primary" ><a href="{% url 'del_recipe' item.pk %}" class="nav-item">Delete</a></button>
         {% endif %}
         </div>

@@ -22,7 +22,9 @@ class AddRecipeForm(forms.ModelForm):
         # fields = ['name', 'photo', 'content', 'cat', 'ingr']
         fields = ['name', 'photo', 'content', 'cat', 'ingr']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'name': forms.TextInput(attrs={
+             'class': "form-control", 'id': "exampleInputEmail1",
+             'aria-describedby': "emailHelp", 'placeholder': 'Title', 'style': 'width: 30%'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
             'cat': forms.CheckboxSelectMultiple,
         }
@@ -41,10 +43,18 @@ class UpdateRecipeForm(forms.ModelForm):
 
 
 class RegisterUserForm(UserCreationForm):
-    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={
+        'class': "form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': 'username'}))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={
+        'class': "form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': '@ email'}))
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
+        'class': "form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': 'password'}))
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={
+        'class': "form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': 'password confirmation'}))
 
     class Meta:
         model = User
@@ -52,6 +62,10 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={
+        'class':"form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': 'username'}))
     # email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={
+        'class': "form-control", 'id': "exampleInputEmail1",
+        'aria-describedby': "emailHelp", 'placeholder': 'password'}))

@@ -1,0 +1,26 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block content %}
+
+<img src="{{ recipe.photo.url }}">
+        <p>
+            {% for c in recipe.cat.all %}
+                      {{ c.name }}
+            {% endfor %}
+        </p>
+
+        <p>
+            {% for ing in recipe.ingr.all %}
+              {{ ing.name }}
+            {% endfor %}
+        </p>
+        <p>{{ recipe.content}} </p>
+
+
+
+
+
+{% endblock content %}
+</html>

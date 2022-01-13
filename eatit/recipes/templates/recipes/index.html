@@ -1,0 +1,84 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+{% block content %}
+    <div class="container">
+
+
+{#    Categories checkbox      #}
+        <div align="center">
+<div style="margin-top: 20px; margin-bottom: 10px; background-color: #88998f; width: 200px; text-align: left; border: 1rem solid transparent; border-radius: 20px;" >
+<form action="{% url 'filter' %}" method="get">
+    {% for cat in cats %}
+        <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="{{ cat.pk }}" name="cat">
+                  <label class="form-check-label" for="flexCheckDefault">
+                      <h6>{{ cat.name }}</h6>
+              </label>
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-warning">Filter</button>
+    </div>
+</form>
+
+
+
+{#   Recipe list    #}
+    {% for item in recipes %}
+        <div style="margin-left: 10%; width: 80%; background-color: #ecc8c9; margin-top: 10px; margin-bottom: 10px; border-radius: 60px" align="center">
+    <div class="card" style="width: 40%;  line-height: 0.75;" >
+        <a href="{% url 'post' item.pk %}"><img src="{{item.photo.url}}" class="card-img-top"></a>
+      <div class="card-body" style="text-align: left;">
+          <p class="card-text"><h3> <a href="{% url 'post' item.pk %}">{{ item.name }}</a> </h3>
+      <h6>Tags:</h6>
+          <p>{% for c in item.cat.all %}
+              {{ c.name }}
+              {% endfor %}</p>
+      <h6>Ingredients:</h6>
+        <p>{% for ing in item.ingr.all %}
+              {{ ing.name }}
+              {% endfor %}</p>
+          <p><i>{{ item.content|truncatewords:30 }} </i></p>
+      </div>
+    </div></div>
+         {% empty %}
+        <h1>No result</h1>
+
+    {% endfor %}
+    </div>
+<style>
+    .pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
+        <div style="width: 10%; font-size: 20px;" class="pagination">
+{#    Page numbers    #}
+    {%  if page_obj.has_other_pages %}
+       <ul>
+       {% if page_obj.has_previous %}
+       <a href="?page={{ page_obj.previous_page_number }}" style="color: black" class="pluslink">&lt;</a>
+           {% endif %}
+        {% for p in paginator.page_range %}
+            {% if page_obj.number == p %}
+            <a class="pluslink" style="color: black">{{ p }}</a>
+            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <a href="?page={{ p }}" style="color: black">{{ p }}</a>
+            {% endif %}
+        {% endfor %}
+       {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }} " style="color: black" class="pluslink">&gt;</a>
+           {% endif %}
+        </ul>
+    {% endif %}
+</div>
+
+
+
+{% endblock content %}
+
+</html>

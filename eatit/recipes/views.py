@@ -2,6 +2,7 @@ import operator
 from functools import reduce
 
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
@@ -17,13 +18,13 @@ from recipes.utils import DataMixin, menu
 # def index(request):
 #     recipes = Recipe.objects.all()
 #     cats = Category.objects.all()
-#     return render(request, 'recipes/home.html', {'title': 'eatit', 'recipes': recipes, 'cats': cats})
+#     return render(request, 'recipes/index.html', {'title': 'eatit', 'recipes': recipes, 'cats': cats})
 
 
 class Home(ListView):
     paginate_by = 10
     model = Recipe
-    template_name = 'recipes/home.html'
+    template_name = 'recipes/index.html'
     context_object_name = 'recipes'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -33,7 +34,8 @@ class Home(ListView):
 
 
 def show_post(request, post_id):
-    return HttpResponse(f'Show recipe with id = {post_id}')
+    recipe = Recipe.objects.filter(id=post_id).first()
+    return render(request, 'recipes/recipe.html', {'recipe': recipe})
 
 
 def categories(request):
@@ -72,9 +74,12 @@ class MyRecipes(DataMixin, ListView):
     def get_queryset(self):
         # cate = self.request.GET.getlist("cat")
         # queryset = Recipe.objects.filter(cat__in=cate).annotate(num_tags=Count('cat')).filter(num_tags=len(cate))
-        # # queryset = Recipe.objects.filter(reduce(operator.and_, [Q(cat__in=c) for c in cate]))
-        # # queryset = Recipe.objects.filter(cat__in=self.request.GET.getlist("cat"))
-        queryset = Recipe.objects.filter(author_id=self.request.user)
+        # queryset = Recipe.objects.filter(reduce(operator.and_, [Q(cat__in=c) for c in cate]))
+        # queryset = Recipe.objects.filter(cat__in=self.request.GET.getlist("cat"))
+        if self.request.user.is_authenticated:
+            queryset = Recipe.objects.filter(author_id=self.request.user)
+        else:
+            queryset = []
         return queryset
 
 
@@ -116,7 +121,7 @@ def show_category(request, cat_id):
 
 class FilterRecipes(DataMixin, ListView):
     model = Recipe
-    template_name = 'recipes/home.html'
+    template_name = 'recipes/index.html'
     context_object_name = 'recipes'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -134,7 +139,7 @@ class FilterRecipes(DataMixin, ListView):
 
 class Search(DataMixin, ListView):
     """Search by a recipe name"""
-    template_name = 'recipes/home.html'
+    template_name = 'recipes/index.html'
     context_object_name = 'recipes'
 
     def get_queryset(self):
@@ -143,6 +148,7 @@ class Search(DataMixin, ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["q"] = self.request.GET.get("q")
+        context["cats"] = Category.objects.all()
         return context
 
 
